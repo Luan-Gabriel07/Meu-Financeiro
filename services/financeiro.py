@@ -57,18 +57,78 @@ def listar_movimentacoes(movimentacoes):
         print(f"Valor: {i['valor']:.2f}")
         print ("")
 
+def remover_movimentacoes(movimentacoes):
+    if movimentacoes == []:
+        print ("Nenhuma movimentação cadastrada!")
+    else:
+        print ("================== MOVIMENTAÇÕES ==================")
+        for i in movimentacoes:
+            print(f"Descrição: {i['descricao']}")
+            print(f"Tipo: {i['tipo']}")
+            print(f"Categoria: {i['categoria']}")
+            print(f"Valor: {i['valor']:.2f}")
+            print ("")
+        escolha_remover = str(input("Escolha qual movimentação deseja remover: (DESCRIÇÃO)")).upper().strip()
 
-cadastrar_movimentacoes()
-print ('-'*30)
-cadastrar_movimentacoes()
-print ('-'*30)
-cadastrar_movimentacoes()
-print ('-'*30)
+        for indice, i in enumerate(movimentacoes):
+            if escolha_remover == i['descricao']:
+                print ("Movimentação encontrada!")
+                movimentacoes.pop(indice)
+                break
+        else:
+            print  ("Movimentação não encontrada!")
 
-saldo_disponivel,total_despesa, total_receita = calcular_saldo(movimentacoes)
 
-print (f"Receitas: R${total_receita:.2f}")
-print (f"Despesas: R${total_despesa:.2f}")
-print (f"Saldo diponível: R${saldo_disponivel:.2f}")
+def editar_movimentacoes(movimentacoes):
+    if movimentacoes == []:
+        print ("Nenhuma movimentação cadastrada!")
+    else:
+        print ("================== MOVIMENTAÇÕES ==================")
+        for i in movimentacoes:
+            print(f"Descrição: {i['descricao']}")
+            print(f"Tipo: {i['tipo']}")
+            print(f"Categoria: {i['categoria']}")
+            print(f"Valor: {i['valor']:.2f}")
+            print ("")
+        escolher_edicao = str(input("Escolha qual movimentação deseja editar: (DESCRIÇÃO)")).upper().strip()
 
-listar_movimentacoes(movimentacoes)
+        for indice, i in enumerate(movimentacoes):
+            if escolher_edicao == i['descricao']:
+                elemento_editado = str(input("Qual elemento você quer editar: ")).upper().strip()
+
+                if elemento_editado == 'DESCRIÇÃO':
+                    nova_descricao = str(input("Informe a nova DESCRIÇÃO: ")).upper().strip()
+                    while nova_descricao == "":
+                           nova_descricao = str(input("Informe a nova DESCRIÇÃO: ")).upper().strip()
+                    i['descricao'] = nova_descricao
+                    print ("Movimentação editada com sucesso!")
+
+                elif elemento_editado == 'TIPO':
+                    novo_tipo = str(input("Informe o novo TIPO: (RECEITA/DESPESA) ")).upper().strip()
+                    while novo_tipo not in ('RECEITA', 'DESPESA'):
+                        novo_tipo = str(input("Informe o novo TIPO: (RECEITA/DESPESA) ")).upper().strip()
+                    i['tipo'] = novo_tipo
+                    print ("Movimentação editada com sucesso!")
+
+                elif elemento_editado == 'CATEGORIA':
+                    nova_categoria = str(input("Informe a nova CATEGORIA: ")).upper().strip()
+                    while nova_categoria == "":
+                        nova_categoria = str(input("Informe a nova CATEGORIA: ")).upper().strip()
+                    i['categoria'] = nova_categoria
+                    print ("Movimentação editada com sucesso!")
+
+                elif elemento_editado == 'VALOR':
+                    while True:
+                        try:
+                            novo_valor = float(input("Informe o novo VALOR: R$"))
+                            if novo_valor > 0:
+                                break
+                            else:
+                                print("O valor precisa ser maior que zero!")
+                        except ValueError:
+                            print ("Digite um número válido")
+                    i['valor'] = novo_valor
+                    print ("Movimentação editada com sucesso!")
+
+        else:
+            print ("Movimentação NÃO ENCONTRADA!")
